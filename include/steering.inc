@@ -176,4 +176,15 @@ C     Namelist for the CI analyses
       double precision CIvarval, CIvarstep, CIvarmin, CIvarmax
       common/CIvars/CIindex,idxCIval,CItype,CIname,
      $   CIvarval,CIvarstep,CIvarmin,CIvarmax,doCI
+     
+C=========================================================================== CI MODELS
+C-----16/09/2017
+C-----Namelist for additional CI analyses 
+C-----from JoLa phd CI_models.f
+
+C------------------------------------VARIABLES
+      REAL CIXQfractLO(5000,2,7)
+
+C------------------------------------COUPLINGS
+      REAL CILQmass, CILQres, CILQwidth
 
