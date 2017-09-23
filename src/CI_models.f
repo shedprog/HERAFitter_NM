@@ -8,7 +8,7 @@ C Impose parameter relations in given model
 
       Implicit None
       include 'CI_models.inc'
-
+      include 'steering.inc'
 C       Real*8 par(8)
 C       REAL, DIMENSION(4,6) :: Eta
 
@@ -728,7 +728,8 @@ C
 C
       IMPLICIT NONE
       Real S, T, Zmass0, Alpha
-      Real*8 Eta(4,6), Ampl(4,6)
+      Real*8  Ampl(4,6)
+C      Real*8 Eta(4,6)
       Integer Status
 C
 C Model parameters - LQ mass
@@ -1193,7 +1194,8 @@ C
      +                    Alpha, XQfract, DisCross, ConCross, Status )
       IMPLICIT NONE
       Real X, Q2, S, XQfract(2,7), Polar, Zmass, Alpha
-      Real*8 Eta(4,6),DisCross, ConCross
+      Real*8 DisCross, ConCross
+C      Real*8 Eta(4,6)
       Integer Status
       Logical Electron
 C
@@ -1377,11 +1379,11 @@ C        eta * (e*gam_u*(1+gam_5)*n)(u*gam_u*(1+gam_5)*d)
 C
 C        Here the contact terms do NOT couple KM mixed quark species.
 C 
-      SUBROUTINE DContCC( X, Q2, S, Eta, Electron, 
+      SUBROUTINE DContCC( X, Q2, S, Eta3, Electron, 
      +             Polar, XQfract, DisCross, ConCross, Status )
       IMPLICIT NONE
       Real X, Q2, S, XQfract(2,7), Polar
-      Real*8  Eta(3), DisCross, ConCross
+      Real*8  Eta3(3), DisCross, ConCross
       Integer Status
       Logical Electron
 C
@@ -1510,7 +1512,7 @@ C
       Shat=X*S
       U = -Shat + Q2
 
-      If(CIindex.GE.301 .AND. CILQmass.GT.0.0 .AND. Eta(1).NE.0.0 )Then
+      If(CIindex.GE.301 .AND. CILQmass.GT.0.0 .AND. Eta3(1).NE.0.0 )Then
 
          If(CILQwidth.LE.0.0)then
             status=-2
@@ -1585,23 +1587,23 @@ C
 C
 C CI/LQ contribution - only within one family !
 C
-          IF (I1.NE.I2 .OR. Eta(1).EQ.0.0) THEN
+          IF (I1.NE.I2 .OR. Eta3(1).EQ.0.0) THEN
             CIfacU = 1.0
             CIfacD = 1.0
 
           ELSEIF(CIindex.LT.301 .OR. CILQmass.LE.0.0)Then
-            CIfacU = (1.0-Hratio*Eta(I1)/KM(I1,I2))**2
+            CIfacU = (1.0-Hratio*Eta3(I1)/KM(I1,I2))**2
             CIfacD = CIfacU
 
           ELSEIF(LQFN.EQ.0)Then
-            CIfacU =  (1.0-Hratio*CifacX*Eta(I1)/KM(I1,I2))**2
-            CIfacD =  (1.0-Hratio*CifacSR*Eta(I1)/KM(I1,I2))**2
-     +                  + (Hratio*CifacSI*Eta(I1)/KM(I1,I2))**2
+            CIfacU =  (1.0-Hratio*CifacX*Eta3(I1)/KM(I1,I2))**2
+            CIfacD =  (1.0-Hratio*CifacSR*Eta3(I1)/KM(I1,I2))**2
+     +                  + (Hratio*CifacSI*Eta3(I1)/KM(I1,I2))**2
 
           ELSE
-            CIfacU =  (1.0-Hratio*CifacSR*Eta(I1)/KM(I1,I2))**2
-     +                  + (Hratio*CifacSI*Eta(I1)/KM(I1,I2))**2
-            CIfacD =  (1.0-Hratio*CifacX*Eta(I1)/KM(I1,I2))**2
+            CIfacU =  (1.0-Hratio*CifacSR*Eta3(I1)/KM(I1,I2))**2
+     +                  + (Hratio*CifacSI*Eta3(I1)/KM(I1,I2))**2
+            CIfacD =  (1.0-Hratio*CifacX*Eta3(I1)/KM(I1,I2))**2
             ENDIF
 C
 C Sum of (weighted) up-type quark densities
