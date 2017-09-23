@@ -1553,14 +1553,14 @@ C---------------------------------------------
 C CI namelist
 C      namelist/CIstudy/CIindex,idxCIval,CItype,CIname,
 C    $   CIvarval,CIvarstep,CIvarmin,CIvarmax,doCI
-      namelist/CIstudy/doCI,CItype,CIvarval,CIvarstep,CIvarmin,
-     $  CIvarmin, CIvarmax    
+      namelist/CIstudy/doCI,CItype,CIvarval,CIvarstep,
+     &       CIvarmin, CIvarmax    
 C-------------------------------------------------      
 C
 C  Read the CI namelist:
 C-----------------------------------------------------------------------
       open (51,file='steering.txt',status='old')
-      read (51,NML=CIstudy,ERR=138,end=135)
+      read (51,NML=CIstudy,ERR=134,end=131)
  
  131  continue
       close (51)
@@ -1727,7 +1727,7 @@ C==========================OTHER MODELS
         endif
 
 C==========================OTHER MODELS
-        endif
+        
 
         if (LDebug) then
           print CIstudy
