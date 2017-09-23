@@ -402,10 +402,27 @@ C   LW: 30.06 CI theory calculation
          
 C         print*,'CIstudy: Prepare to implemented. doCI = ',doCI
          if(doCI) then
+
            if (XSecType.eq.'NCDIS'.or.XSecType.eq.'CCDIS') then
 C            print*,'CIstudy: Past doCI check. CIindex = ',CIindex
-            if(CIindex.eq.101) then
-             
+C==========================================================CI_models
+            if((CIindex.GT.100).AND.(CIindex.LT.320)) then
+
+
+
+
+
+
+
+
+
+
+
+
+
+              THEO(idx) = THEO(idx)*(( 1 - 
+     $            (CIvarval)*Q2(i)/6 )**2 )
+C==========================================================CI_models end            
             elseif (CIindex.eq.401) then
 C             print*,'CIstudy: Quark form factor implemented.'
               THEO(idx) = THEO(idx)*(( 1 - 

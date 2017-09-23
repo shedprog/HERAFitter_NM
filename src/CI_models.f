@@ -4,10 +4,15 @@ C
       Subroutine ModImpose(Eta)
 C
 C Impose parameter relations in given model
-C
+
+
       Implicit None
+      include 'steering.inc'
+
       Real*8 par(8)
-      Real :: Eta(4,2)
+      REAL, DIMENSION(4,6) :: Eta
+
+C       Real :: Eta(4,2)
 C
 C  Models are:  
 C  =========== 
@@ -613,14 +618,12 @@ CCC            EndDo
 CCC
 CCC         Endif
 CCC------------HERE WE FORM ETA FROM PAR
-      Eta(1,1) = par(1)
-      Eta(2,1) = par(2)
-      Eta(3,1) = par(3)
-      Eta(4,1) = par(4)
-      Eta(1,2) = par(5)
-      Eta(2,2) = par(6)
-      Eta(3,2) = par(7)
-      Eta(4,2) = par(8)
+
+      Eta = reshape([
+     $ par(1), par(2), par(3), par(4), par(5), par(6), par(7), par(8),     
+     $ par(1), par(2), par(3), par(4), par(5), par(6), par(7), par(8),
+     $ par(1), par(2), par(3), par(4), par(5), par(6), par(7), par(8)  
+     $], [4,6])
 
       Return
       End
