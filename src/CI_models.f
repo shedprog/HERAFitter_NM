@@ -7,10 +7,10 @@ C Impose parameter relations in given model
 
 
       Implicit None
-      include 'steering.inc'
+      include 'CI_models.inc'
 
-      Real*8 par(8)
-      REAL, DIMENSION(4,6) :: Eta
+C       Real*8 par(8)
+C       REAL, DIMENSION(4,6) :: Eta
 
 C       Real :: Eta(4,2)
 C
@@ -131,7 +131,6 @@ C
 C======================================================================
 C
 C
-      include 'steering.inc'
 C
 CCC      Integer Ipar
 
@@ -737,6 +736,7 @@ C
 CCCC      include 'cimodel.inc'
       include 'steering.inc'
       include 'couplings.inc'
+      include 'CI_models.inc'
 C
 C     --- First: a few constants
 C
@@ -1202,6 +1202,7 @@ C
 CCC      include 'cimodel.inc'
       include 'steering.inc'
       include 'couplings.inc'
+      include 'CI_models.inc'
 C
 CCC      Real*8 Pi, GeVNb
 CCC      Data Pi/3.14159265/
@@ -1389,6 +1390,7 @@ C
 
       include 'steering.inc'
       include 'couplings.inc'
+      include 'CI_models.inc'
 
 CC      Real*8 Pi, GeVNb, Wmass, Sin2T, KM(3,3)
       Real*8 GeVNb, KM(3,3)
@@ -1648,7 +1650,7 @@ C
       
       Integer isdx
       include 'steering.inc'
-      
+      include 'CI_models.inc'
       open(112,file="CIpdfLO_out.txt",action="write",status="replace")
       
       Do isdx=1,5000
@@ -1673,6 +1675,7 @@ C
 
       Integer irdx
       include 'steering.inc'
+      include 'CI_models.inc'
 
       open(114,file="CIpdfLO_in.txt",action="read")
 
@@ -1713,6 +1716,7 @@ C
       Data CIX/0.1, 0.2, 0.3, 0.4, 0.5, 0.6/
 
       include 'steering.inc'
+      include 'CI_models.inc'
 
       CIS = (318.0)**2
 
