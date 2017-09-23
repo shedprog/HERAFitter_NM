@@ -1553,13 +1553,14 @@ C---------------------------------------------
 C CI namelist
 C      namelist/CIstudy/CIindex,idxCIval,CItype,CIname,
 C    $   CIvarval,CIvarstep,CIvarmin,CIvarmax,doCI
-      namelist/CIstudy/doCI,CItype,CIvarval,CIvarstep
+      namelist/CIstudy/doCI,CItype,CIvarval,CIvarstep,CIvarmin,
+     $  CIvarmin, CIvarmax    
 C-------------------------------------------------      
 C
 C  Read the CI namelist:
-C
+C-----------------------------------------------------------------------
       open (51,file='steering.txt',status='old')
-      read (51,NML=CIstudy,ERR=134,end=131)
+      read (51,NML=CIstudy,ERR=138,end=135)
  
  131  continue
       close (51)
@@ -1572,9 +1573,160 @@ C
         if (CItype.eq.'FormFactor') then
           CIindex = 401
           CIname = 'CI_Rq'
-!          CIvarval = CIvarval * CIvarval
-          CIvarmin = 0.
-          CIvarmax = 0.
+C==========================OTHER MODELS
+        elseif (CItype.eq.'VV') then
+          CIindex = 101
+          CIname = '\eta'
+       
+        elseif (CItype.eq.'AA') then
+          CIindex = 102
+          CIname = '\eta'
+      
+        elseif (CItype.eq.'VA') then
+          CIindex = 103
+          CIname = '\eta'
+
+        elseif (CItype.eq.'X1') then
+          CIindex = 104
+          CIname = '\eta'
+    
+        elseif (CItype.eq.'X2') then
+          CIindex = 105
+          CIname = '\eta'
+
+        elseif (CItype.eq.'X3') then
+          CIindex = 106
+          CIname = '\eta'
+  
+        elseif (CItype.eq.'X4') then
+          CIindex = 107
+          CIname = '\eta'
+ 
+        elseif (CItype.eq.'X5') then
+          CIindex = 108
+          CIname = '\eta'
+
+        elseif (CItype.eq.'X6') then
+          CIindex = 109
+          CIname = '\eta'
+
+        elseif (CItype.eq.'U1') then
+          CIindex = 110
+          CIname = '\eta'
+
+        elseif (CItype.eq.'U2') then
+          CIindex = 111
+          CIname = '\eta'
+
+        elseif (CItype.eq.'U3') then
+          CIindex = 112
+          CIname = '\eta'
+
+        elseif (CItype.eq.'U4') then
+          CIindex = 113
+          CIname = '\eta'
+
+        elseif (CItype.eq.'U5') then
+          CIindex = 114
+          CIname = '\eta'
+
+        elseif (CItype.eq.'U6') then
+          CIindex = 115
+          CIname = '\eta'
+
+        elseif (CItype.eq.'LL') then
+          CIindex = 116
+          CIname = '\eta'
+
+        elseif (CItype.eq.'LR') then
+          CIindex = 117
+          CIname = '\eta'
+
+        elseif (CItype.eq.'RL') then
+          CIindex = 118
+          CIname = '\eta'
+
+        elseif (CItype.eq.'RR') then
+          CIindex = 119
+          CIname = '\eta'
+
+        elseif (CItype.eq.'Extra Dimensions') then
+          CIindex = 201
+          CIname = '\eta'
+
+        elseif (CItype.eq.'S_o') then
+          CIindex = 301
+
+        elseif (CItype.eq.'S_o_L') then
+          CIindex = 302
+          CIname = '\eta'
+
+        elseif (CItype.eq.'S_o_R') then
+          CIindex = 303
+          CIname = '\eta'
+
+        elseif (CItype.eq.'~S_o') then
+          CIindex = 304
+          CIname = '\eta'
+
+        elseif (CItype.eq.'S_1/2') then
+          CIindex = 305
+          CIname = '\eta'
+
+        elseif (CItype.eq.'S_1/2_L') then
+          CIindex = 306
+          CIname = '\eta'
+
+        elseif (CItype.eq.'S_1/2_R') then
+          CIindex = 307
+          CIname = '\eta'
+
+        elseif (CItype.eq.'~S_1/2') then
+          CIindex = 308
+          CIname = '\eta'
+
+        elseif (CItype.eq.'S_1') then
+          CIindex = 309
+          CIname = '\eta'
+
+        elseif (CItype.eq.'V_o') then
+          CIindex = 311
+          CIname = '\eta'
+
+        elseif (CItype.eq.'V_o_L') then
+          CIindex = 312
+          CIname = '\eta'
+
+        elseif (CItype.eq.'V_o_R') then
+          CIindex = 313
+          CIname = '\eta'
+
+        elseif (CItype.eq.'~V_o') then
+          CIindex = 314
+          CIname = '\eta'
+
+        elseif (CItype.eq.'V_1/2') then
+          CIindex = 315
+          CIname = '\eta'
+
+        elseif (CItype.eq.'V_1/2_L') then
+          CIindex = 316
+          CIname = '\eta'
+
+        elseif (CItype.eq.'V_1/2_R') then
+          CIindex = 317
+          CIname = '\eta'
+
+        elseif (CItype.eq.'~V_1/2') then
+          CIindex = 318
+          CIname = '\eta'
+
+        elseif (CItype.eq.'V_1') then
+          CIindex = 319
+          CIname = '\eta'
+        endif
+
+C==========================OTHER MODELS
         endif
 
         if (LDebug) then
@@ -1584,7 +1736,7 @@ C
       endif
 
       return
-C-----------------
+C-----------------------------------------------------------------------
 134   continue
       print '(''Error reading namelist &CIstudy, STOP'')'
       call HF_stop

@@ -5,13 +5,13 @@
     NInputFiles = 7
  
   ! Input files:
-    InputFileNames(1) = '/afs/desy.de/group/herafitter/scratch/turkot1/Data/postEB/HERA1+2_CCem.dat'
-    InputFileNames(2) = '/afs/desy.de/group/herafitter/scratch/turkot1/Data/postEB/HERA1+2_CCep.dat'
-    InputFileNames(3) = '/afs/desy.de/group/herafitter/scratch/turkot1/Data/postEB/HERA1+2_NCem.dat'
-    InputFileNames(4) = '/afs/desy.de/group/herafitter/scratch/turkot1/Data/postEB/HERA1+2_NCep_820.dat'
-    InputFileNames(5) = '/afs/desy.de/group/herafitter/scratch/turkot1/Data/postEB/HERA1+2_NCep_920.dat'
-    InputFileNames(6) = '/afs/desy.de/group/herafitter/scratch/turkot1/Data/postEB/HERA1+2_NCep_460.dat'
-    InputFileNames(7) = '/afs/desy.de/group/herafitter/scratch/turkot1/Data/postEB/HERA1+2_NCep_575.dat'
+    InputFileNames(1) = '/afs/desy.de/user/m/mykytaua/work_dir/num1/datafiles/postEB/HERA1+2_CCem.dat'
+    InputFileNames(2) = '/afs/desy.de/user/m/mykytaua/work_dir/num1/datafiles/postEB/HERA1+2_CCep.dat'
+    InputFileNames(3) = '/afs/desy.de/user/m/mykytaua/work_dir/num1/datafiles/postEB/HERA1+2_NCem.dat'
+    InputFileNames(4) = '/afs/desy.de/user/m/mykytaua/work_dir/num1/datafiles/postEB/HERA1+2_NCep_820.dat'
+    InputFileNames(5) = '/afs/desy.de/user/m/mykytaua/work_dir/num1/datafiles/postEB/HERA1+2_NCep_920.dat'
+    InputFileNames(6) = '/afs/desy.de/user/m/mykytaua/work_dir/num1/datafiles/postEB/HERA1+2_NCep_460.dat'
+    InputFileNames(7) = '/afs/desy.de/user/m/mykytaua/work_dir/num1/datafiles/postEB/HERA1+2_NCep_575.dat'
 
 &End
 
@@ -231,13 +231,13 @@
 *
 &MCErrors
   ! Activate MC method for error estimation if lRand = True
-  lRAND   = False
+  lRAND   = True
   
   ! Use data (true, default) or theory (false) for the central values of the MC replica
   lRANDDATA = False
 
   ! MC method Seed
-  ISeedMC = 123456
+  ISeedMC = 1100017684
 
   ! --- Choose what distribution for the random number generator 
   ! STATYPE (SYS_TYPE)  =   1  gauss
@@ -322,14 +322,16 @@
   ! Whether to do the Contact Interaction analysis:
    doCI = True
 
-
   ! Type of the analysis:
    CItype = 'FormFactor'
 
   ! CI variable value and step
-   CIvarval = 0.0
+   CIvarval = 4.05196E-06
 
    CIvarstep = 1.0E-06
 
-&End
+   CIvarmin = 0.
 
+   CIvarmax = 0.
+
+&End
