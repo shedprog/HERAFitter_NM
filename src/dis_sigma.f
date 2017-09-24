@@ -297,7 +297,8 @@ C---------------------------------------------------------------
       include 'couplings.inc'
       include 'qcdnumhelper.inc'
       include 'for_debug.inc'
-
+      include 'CI_models.inc'
+      
       character*(*) XSecType
       integer IDataSet, local_hfscheme
       integer idxQ2, idxX, idxY, i,  idx, idxS
@@ -314,6 +315,14 @@ C Functions:
 c H1qcdfunc
       integer ifirst
       data ifirst /1/
+C-------CI_models
+      Real*8 xsec_LO_SM_CI, xsec_LO_SM
+      Real XQfract(2,7)
+      LOGICAL Electron
+      double precision dbPdf
+      dimension dbPdf(-6:6)
+      integer status
+      integer iq       
 C---------------------------------------------------------
       if(debug) then
         print*,'GetDisXsection: XSEC TYPE = ', XSecType
@@ -375,6 +384,9 @@ C
       call CalcReducedXsectionForXYQ2(X,Y,Q2,NDATAPOINTS(IDataSet),
      $     charge,polarity,IDataSet,XSecType, local_hfscheme,XSec)
 
+C=================================================================START
+      open(190, file = "CI_new_models.txt", status = 'unknown')
+      call  ModImpose(Eta)
 
       do i=1,NDATAPOINTS(IDataSet)
          idx =  DATASETIDX(IDataSet,i)
@@ -410,17 +422,52 @@ C==========================================================CI_models
 C --------------------------------------------------------------------
 C--------------------------------------------------------TEST CI_Models
 C---------------------------------------------------------------------
-      open(190, file = "CI_new_models.txt", status = 'unknown')
-      write (190,*) 'CI_models from dis_sigma.f was activated!' 
-      close(190)
+
+            if (charge.eq.-1.0) then
+              Electron = .TRUE.
+            else 
+              Electron = .FALSE.
+            endif
+
+
+
+
+
+            Call hf_get_pdfs(x(i),q2(i),dbPdf)
+            Do iq=1,6
+              XQfract(1,iq) = dbPdf(iq)
+              XQfract(2,iq) = dbPdf(-iq)
+            EndDo
+
+            
+              write (190,*) 'CI_models from dis_sigma.f was activated!' 
+              write (190,*) 'Eta=',Eta
+              write (190,*) 'charge=' ,charge
+              write (190,*) 'polarity=' ,polarity
+              write (190,*)
+
+
+              if(XSecType.eq.'NCDIS')then
+                call DContNC( x(i), q2(i), S, Eta, Electron, polarity, 
+     +               Mz, alphaem, XQfract, xsec_LO_SM, xsec_LO_SM_CI,
+     +               Status )
+              endif
+              
+              if(XSecType.eq.'NCDIS')then
+                call DContCC( x(i), q2(i), S, Eta, Electron, polarity,
+     +               XQfract, xsec_LO_SM, xsec_LO_SM_CI, Status ) 
+              endif
+
+              
+
 C ---------------------------------------------------------------------
 C--------------------------------------------------------TEST CI_Models
 C--------------------------------------------------------------------
-      ModImpose(Eta)
+              THEO(idx) = THEO(idx)*xsec_LO_SM_CI/xsec_LO_SM      
 
 
-              THEO(idx) = THEO(idx)*(( 1 - 
-     $            (CIvarval)*Q2(i)/6 )**2 )
+C              THEO(idx) = THEO(idx)*(( 1 - 
+C     $            (CIvarval)*Q2(i)/6 )**2 )
 C==========================================================CI_models end            
             elseif (CIindex.eq.401) then
 C             print*,'CIstudy: Quark form factor implemented.'
@@ -433,6 +480,8 @@ C             print*,'CIstudy: Quark form factor implemented.'
 C   LW: end of CI theory
 
       enddo
+      close(190)
+C====================================================================END
 
       if ((iflagFCN.eq.3).and.(h1QCDFUNC).and.(XSecType.eq.'NCDIS')) then
          if (ifirst.eq.1) then
