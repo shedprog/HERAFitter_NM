@@ -71,7 +71,7 @@ C This is not fully tested
       end
 
 
-C----------------------------------------------------------------
+C-----------------------------------------------------------------
 C
 C> \brief Double differential integrated DIS cross section calculation
 C> \details Fills global array THEO.
@@ -315,15 +315,16 @@ C Functions:
 c H1qcdfunc
       integer ifirst
       data ifirst /1/
-C-------CI_models
+C-------CI_models variables
       Real*8 xsec_LO_SM_CI, xsec_LO_SM
+      REAL*8, DIMENSION(3) :: Eta3
       Real XQfract(2,7)
       LOGICAL Electron
       double precision dbPdf
       dimension dbPdf(-6:6)
       integer status
       integer iq       
-C---------------------------------------------------------
+
       if(debug) then
         print*,'GetDisXsection: XSEC TYPE = ', XSecType
       endif
@@ -384,9 +385,21 @@ C
       call CalcReducedXsectionForXYQ2(X,Y,Q2,NDATAPOINTS(IDataSet),
      $     charge,polarity,IDataSet,XSecType, local_hfscheme,XSec)
 
-C=================================================================START
+C CI_new_models.txt (for testing CI_models) is open 
       open(190, file = "CI_new_models.txt", status = 'unknown')
+      write (190,*) 'CI_models from dis_sigma.f was activated!'
+C Editional term for M^2 (ContTerm) is implemented
       call  ModImpose(Eta)
+C Editional term for DCconCC
+C Eta(1) = Eta^ed_LL - Eta^eu_LL
+C Eta(2) = Eta^es_LL - Eta^ec_LL
+C Eta(3) = Eta^eb_LL - Eta^et_LL
+
+      Eta3 = reshape([Eta(1,1)-Eta(1,2),
+     +                Eta(1,3)-Eta(1,4),
+     +                Eta(1,5)-Eta(1,6)],[3])
+
+      
 
       do i=1,NDATAPOINTS(IDataSet)
          idx =  DATASETIDX(IDataSet,i)
@@ -417,11 +430,8 @@ C         print*,'CIstudy: Prepare to implemented. doCI = ',doCI
 
            if (XSecType.eq.'NCDIS'.or.XSecType.eq.'CCDIS') then
 C            print*,'CIstudy: Past doCI check. CIindex = ',CIindex
-C==========================================================CI_models
+
             if((CIindex.GT.100).AND.(CIindex.LT.320)) then
-C --------------------------------------------------------------------
-C--------------------------------------------------------TEST CI_Models
-C---------------------------------------------------------------------
 
             if (charge.eq.-1.0) then
               Electron = .TRUE.
@@ -429,46 +439,43 @@ C---------------------------------------------------------------------
               Electron = .FALSE.
             endif
 
-
-
-
-
             Call hf_get_pdfs(x(i),q2(i),dbPdf)
             Do iq=1,6
               XQfract(1,iq) = dbPdf(iq)
               XQfract(2,iq) = dbPdf(-iq)
             EndDo
 
-            
-              write (190,*) 'CI_models from dis_sigma.f was activated!' 
-              write (190,*) 'Eta=',Eta
-              write (190,*) 'charge=' ,charge
-              write (190,*) 'polarity=' ,polarity
-              write (190,*)
-
+               
+              write (190,*) 'Eta = ',Eta
+              write (190,*) 'charge = ' ,charge
+              write (190,*) 'polarity = ' ,polarity
+              write (190,*) 'XQfract = ' ,XQfract
 
               if(XSecType.eq.'NCDIS')then
                 call DContNC( x(i), q2(i), S, Eta, Electron, polarity, 
      +               Mz, alphaem, XQfract, xsec_LO_SM, xsec_LO_SM_CI,
      +               Status )
+                write (190,*) 'NCDIS:'
+     +                        'xsec_LO_SM = ', xsec_LO_SM, 
+     +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
               endif
+
               
-              if(XSecType.eq.'NCDIS')then
+              if(XSecType.eq.'СCDIS')then
                 call DContCC( x(i), q2(i), S, Eta, Electron, polarity,
      +               XQfract, xsec_LO_SM, xsec_LO_SM_CI, Status ) 
+                write (190,*) 'CCDIS:'
+     +                        'xsec_LO_SM = ', xsec_LO_SM, 
+     +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
               endif
 
-              
 
-C ---------------------------------------------------------------------
-C--------------------------------------------------------TEST CI_Models
-C--------------------------------------------------------------------
+
               THEO(idx) = THEO(idx)*xsec_LO_SM_CI/xsec_LO_SM      
-
 
 C              THEO(idx) = THEO(idx)*(( 1 - 
 C     $            (CIvarval)*Q2(i)/6 )**2 )
-C==========================================================CI_models end            
+
             elseif (CIindex.eq.401) then
 C             print*,'CIstudy: Quark form factor implemented.'
               THEO(idx) = THEO(idx)*(( 1 - 
@@ -480,8 +487,8 @@ C             print*,'CIstudy: Quark form factor implemented.'
 C   LW: end of CI theory
 
       enddo
+C CI_new_models.txt is closed !
       close(190)
-C====================================================================END
 
       if ((iflagFCN.eq.3).and.(h1QCDFUNC).and.(XSecType.eq.'NCDIS')) then
          if (ifirst.eq.1) then
