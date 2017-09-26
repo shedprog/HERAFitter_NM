@@ -633,6 +633,7 @@ C
 C
 C No K_QCD for electron-photon
 C
+       DOUBLE PRECISION Ucor,Dcor,x
        Ucor=1.
        Dcor=1.
 
@@ -668,7 +669,7 @@ C*********************************************************************
 C
       DOUBLE PRECISION Function ContAlph( Q2 )
       IMPLICIT NONE
-      DOUBLE PRECISION
+      DOUBLE PRECISION Q2
 C
       DOUBLE PRECISION AEMPI, RPIGG
 C
@@ -968,7 +969,7 @@ C
 C Take into account QCD correction
 C
 C LW TMP, missing func:
-             Call KQCD(-1.,Ucor,Dcor)
+             Call KQCD(DBLE(-1.),Ucor,Dcor)
 C
 C             Dcor = 1
 C             Ucor = 1
@@ -1706,7 +1707,7 @@ C
       Logical isElectron
       DOUBLE PRECISION XQfract(2,7), CIX(6), CIQ2, CIS, CIPolar, CIAlpha
       DOUBLE PRECISION Q2min0, Q2max0, Q2max, Q2logstep
-      DOUBLE PRECISIONDisCross, ConCross
+      DOUBLE PRECISION DisCross, ConCross
       Integer Status
 
       double precision dbPdf, hfX, hfQ2
@@ -1789,7 +1790,7 @@ C
               EndDo
 
               Call DContNC( CIX(iNx), CIQ2, CIS, EtaParNC, isElectron,
-     +            CIPolar, -1., CIAlpha, XQfract, DisCross, ConCross, 
+     +            CIPolar,DBLE(-1.), CIAlpha, XQfract, DisCross, ConCross, 
      +            Status )
 
               write(iFile,*) CIQ2, (ConCross/DisCross), Status,CIX(iNx),
