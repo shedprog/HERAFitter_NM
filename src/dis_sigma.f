@@ -303,7 +303,7 @@ C---------------------------------------------------------------
       integer IDataSet, local_hfscheme
       integer idxQ2, idxX, idxY, i,  idx, idxS
       
-      double precision X(NPMaxDIS),Y(NPMaxDIS),Q2(NPMaxDIS),XSec(NPMaxDIS)
+      double precision X(NPMaxDIS),Y(NPMaxDIS),Q2(NPMaxDIS),XSec(NPMaxDIS), SS
       double precision Charge, polarity, alphaem_run, factor, S
       logical IsReduced
 
@@ -439,6 +439,12 @@ C            print*,'CIstudy: Past doCI check. CIindex = ',CIindex
               Electron = .FALSE.
             endif
 
+C=========S - energu senter mass
+
+            SS = q2(i)/(x(i)*y(i))
+
+        
+
             Call hf_get_pdfs(x(i),q2(i),dbPdf)
             Do iq=1,6
               XQfract(1,iq) = dbPdf(iq)
@@ -446,28 +452,36 @@ C            print*,'CIstudy: Past doCI check. CIindex = ',CIindex
             EndDo
 
                
+              
               write (190,*) 'Eta = ',Eta
               write (190,*) 'charge = ' ,charge
               write (190,*) 'polarity = ' ,polarity
               write (190,*) 'XQfract = ' ,XQfract
-
+              write (190,*) 'S = ',SS
+              write (190,*) 'Q2 = ',q2(i)
+              write (190,*) 'x = ', x(i)
+              Write (190,*) 'y = ', y(i)
+              write (190,*) 'IDataSet=', IDataSet              
+    
               if(XSecType.eq.'NCDIS')then
-                call DContNC( x(i), q2(i), S, Eta, Electron, polarity, 
+                call DContNC( x(i), q2(i), SS, Eta, Electron, polarity, 
      +               Mz, alphaem, XQfract, xsec_LO_SM, xsec_LO_SM_CI,
      +               Status )
-                write (190,*) 'NCDIS:'
+                write (190,*) 'NCDIS:',
      +                        'xsec_LO_SM = ', xsec_LO_SM, 
      +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
-              endif
+                write (190,*) 'STATUS=',status
+                endif
 
               
               if(XSecType.eq.'СCDIS')then
-                call DContCC( x(i), q2(i), S, Eta, Electron, polarity,
+                call DContCC( x(i), q2(i), SS, Eta3, Electron, polarity,
      +               XQfract, xsec_LO_SM, xsec_LO_SM_CI, Status ) 
-                write (190,*) 'CCDIS:'
+                write (190,*) 'CCDIS:',
      +                        'xsec_LO_SM = ', xsec_LO_SM, 
      +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
-              endif
+                write (190,*) 'STATUS=',status
+                endif
 
 
 
@@ -488,6 +502,7 @@ C   LW: end of CI theory
 
       enddo
 C CI_new_models.txt is closed !
+      write(190,*) "                                                  "
       close(190)
 
       if ((iflagFCN.eq.3).and.(h1QCDFUNC).and.(XSecType.eq.'NCDIS')) then
