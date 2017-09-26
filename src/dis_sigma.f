@@ -303,7 +303,9 @@ C---------------------------------------------------------------
       integer IDataSet, local_hfscheme
       integer idxQ2, idxX, idxY, i,  idx, idxS
       
-      double precision X(NPMaxDIS),Y(NPMaxDIS),Q2(NPMaxDIS),XSec(NPMaxDIS), SS
+      double precision X(NPMaxDIS),Y(NPMaxDIS),Q2(NPMaxDIS),
+     + XSec(NPMaxDIS)
+
       double precision Charge, polarity, alphaem_run, factor, S
       logical IsReduced
 
@@ -316,14 +318,17 @@ c H1qcdfunc
       integer ifirst
       data ifirst /1/
 C-------CI_models variables
-      Real*8 xsec_LO_SM_CI, xsec_LO_SM
-      REAL*8, DIMENSION(3) :: Eta3
-      Real XQfract(2,7)
+      DOUBLE PRECISION xsec_LO_SM_CI, xsec_LO_SM
+      DOUBLE PRECISION, DIMENSION(3) :: Eta3
+      DOUBLE PRECISION XQfract(2,7)
       LOGICAL Electron
       double precision dbPdf
       dimension dbPdf(-6:6)
       integer status
-      integer iq       
+      integer iq 
+      DOUBLE PRECISION SS      
+
+      
 
       if(debug) then
         print*,'GetDisXsection: XSEC TYPE = ', XSecType

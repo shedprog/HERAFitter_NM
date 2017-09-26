@@ -1,4 +1,4 @@
-C
+Cd
 C=================================================================
 C
       Subroutine ModImpose(Eta)
@@ -666,13 +666,13 @@ C*                    CERN/TH, CH-1211 Geneva 23                    **
 C*                BITNET/EARN address TORSJO@CERNVM                 **
 C*********************************************************************
 C
-      Real Function ContAlph( Q2 )
+      DOUBLE PRECISION Function ContAlph( Q2 )
       IMPLICIT NONE
-      Real Q2
+      DOUBLE PRECISION
 C
-      Real AEMPI, RPIGG
+      DOUBLE PRECISION AEMPI, RPIGG
 C
-      Real PARU_101, PARU_001
+      DOUBLE PRECISION PARU_101, PARU_001
       Data PARU_001/3.14159265/,
      +     PARU_101/0.00729735/
 
@@ -727,8 +727,8 @@ C
       SUBROUTINE ContTamp( S, T, Eta, Zmass0, Alpha, Ampl, Status )
 C
       IMPLICIT NONE
-      Real S, T, Zmass0, Alpha
-      Real*8  Ampl(4,6)
+      DOUBLE PRECISION S, T, Zmass0, Alpha
+      DOUBLE PRECISION  Ampl(4,6)
 C      Real*8 Eta(4,6)
       Integer Status
 C
@@ -743,7 +743,7 @@ C     --- First: a few constants
 C
 C      Real*8 Pi, Qcharge(6), Qiso(6), Zmass, ZmassDef, Sin2T,
 C     +     AlphaB, Zgamma
-      Real*8 Qcharge(6), Qiso(6), Zmass
+      DOUBLE PRECISION Qcharge(6), Qiso(6), Zmass
 
 C
 CCC      Data Pi/3.14159265/
@@ -769,23 +769,23 @@ C     --- and derived constants
 C
       Logical Initialized
       Data Initialized/.FALSE./
-      Real*8 Cos2T, gLq(6), gRq(6), gLe, gRe
+      DOUBLE PRECISION Cos2T, gLq(6), gRq(6), gLe, gRe
       Save Cos2T, gLq, gRq, gLe, gRe
 C
 C     --- Program variables
 C
       Integer Ic, Iq
-      Real*8    e2cor, g1, g2, gg, g3,g3R(6),g3I(6),Wcorr(6)
-      Real*8    ReDen,ImDen, Den, ReAmp,ImAmp
+      DOUBLE PRECISION    e2cor, g1, g2, gg, g3,g3R(6),g3I(6),Wcorr(6)
+      DOUBLE PRECISION    ReDen,ImDen, Den, ReAmp,ImAmp
 C
 C  Function calculating running alpha_EM
 C
-      Real    ContAlph,Ucor,Dcor
-      Real*8 U, LQEX,LQefwid(6)
-      Real*8 GrCorr(4)
+      DOUBLE PRECISION    ContAlph,Ucor,Dcor
+      DOUBLE PRECISION U, LQEX,LQefwid(6)
+      DOUBLE PRECISION GrCorr(4)
       
 C LW: additional parameters
-      Real*8 LQFN, LQSign, LQSP
+      DOUBLE PRECISION LQFN, LQSign, LQSP
 
       double precision hf_get_alphas
       double precision hf_q2
@@ -1193,8 +1193,8 @@ C
       SUBROUTINE DContNC( X, Q2, S, Eta, Electron, Polar, Zmass,
      +                    Alpha, XQfract, DisCross, ConCross, Status )
       IMPLICIT NONE
-      Real X, Q2, S, XQfract(2,7), Polar, Zmass, Alpha
-      Real*8 DisCross, ConCross
+      DOUBLE PRECISION X, Q2, S, XQfract(2,7), Polar, Zmass, Alpha
+      DOUBLE PRECISION DisCross, ConCross
 C      Real*8 Eta(4,6)
       Integer Status
       Logical Electron
@@ -1210,14 +1210,14 @@ CCC      Real*8 Pi, GeVNb
 CCC      Data Pi/3.14159265/
 C
 C     Conversion from GeV^-2 to nbarn
-      Real*8 GeVNb
+      DOUBLE PRECISION GeVNb
       Data GeVNb/0.38937966E9/
 C
-      Real*8 Eta0(4,6)
+      DOUBLE PRECISION Eta0(4,6)
       Data Eta0/24*0./
-      Real*8 Ampl0(4,6),Ampl(4,6),AmplB(4,6),EDgg
-      Real*8 y, T1, T2, yfac(4), yfacB(4), PL, PR
-      Real T,U,SS
+      DOUBLE PRECISION Ampl0(4,6),Ampl(4,6),AmplB(4,6),EDgg
+      DOUBLE PRECISION y, T1, T2, yfac(4), yfacB(4), PL, PR
+      DOUBLE PRECISION T,U,SS
 CCCC      Real Ucor,Dcor
       Integer Iq,Ilr
 C
@@ -1382,8 +1382,8 @@ C
       SUBROUTINE DContCC( X, Q2, S, Eta3, Electron, 
      +             Polar, XQfract, DisCross, ConCross, Status )
       IMPLICIT NONE
-      Real X, Q2, S, XQfract(2,7), Polar
-      Real*8  Eta3(3), DisCross, ConCross
+      DOUBLE PRECISION X, Q2, S, XQfract(2,7), Polar
+      DOUBLE PRECISION  Eta3(3), DisCross, ConCross
       Integer Status
       Logical Electron
 C
@@ -1395,7 +1395,7 @@ C
       include 'CI_models.inc'
 
 CC      Real*8 Pi, GeVNb, Wmass, Sin2T, KM(3,3)
-      Real*8 GeVNb, KM(3,3)
+      DOUBLE PRECISION GeVNb, KM(3,3)
 C
 C      Data Pi/3.14159265/
 C
@@ -1424,20 +1424,20 @@ C
       Logical Initialized
       Data Initialized/.FALSE./
 C
-      Real*8 KM2(3,3)
+      DOUBLE PRECISION KM2(3,3)
       Save KM2
 C
 C     --- Program variables
 C
       Integer I1, I2, Iup, Idn, Iu1, Iu2
-      Real*8  SumUK, SumDK, SumU1, SumD1,
+      DOUBLE PRECISION  SumUK, SumDK, SumU1, SumD1,
      +        MQ2, Hratio, y, T1, Alpha, Tu
 C
-      Real*8 g3,CIfacSR,CIfacSI,CIfacX,CIfacU,CIfacD
-      Real*8 U,Shat,LQefwid,Wcorr
+      DOUBLE PRECISION g3,CIfacSR,CIfacSI,CIfacX,CIfacU,CIfacD
+      DOUBLE PRECISION U,Shat,LQefwid,Wcorr
       
 C LW: additional parameters
-      Real*8 LQFN
+      DOUBLE PRECISION LQFN
 C
 C Model parameters - LQ mass
 C
@@ -1700,13 +1700,13 @@ C
       Subroutine CIprintLOratio
       IMPLICIT NONE
 
-      Real*8 EtaParNC(4,6), EtaVal
+      DOUBLE PRECISION EtaParNC(4,6), EtaVal
       Integer iqg, iqt, iq, ilr
       Integer iNx, iNq2, iNelectron, iNeta
       Logical isElectron
-      Real XQfract(2,7), CIX(6), CIQ2, CIS, CIPolar, CIAlpha
-      Real Q2min0, Q2max0, Q2max, Q2logstep
-      Real*8 DisCross, ConCross
+      DOUBLE PRECISION XQfract(2,7), CIX(6), CIQ2, CIS, CIPolar, CIAlpha
+      DOUBLE PRECISION Q2min0, Q2max0, Q2max, Q2logstep
+      DOUBLE PRECISIONDisCross, ConCross
       Integer Status
 
       double precision dbPdf, hfX, hfQ2
