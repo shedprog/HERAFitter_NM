@@ -391,11 +391,11 @@ C
      $     charge,polarity,IDataSet,XSecType, local_hfscheme,XSec)
 
 C CI_new_models.txt (for testing CI_models) is open 
-      open(190, file = "CI_new_models.txt", status = 'unknown')
+      open(190, file = "CI_models_test.txt", status = 'unknown')
       write (190,*) 'CI_models from dis_sigma.f was activated!'
-C Editional term for M^2 (ContTerm) is implemented
+C ADD term for M^2 (ContTerm) is implemented
       call  ModImpose(Eta)
-C Editional term for DCconCC
+C Add term for DCconCC
 C Eta(1) = Eta^ed_LL - Eta^eu_LL
 C Eta(2) = Eta^es_LL - Eta^ec_LL
 C Eta(3) = Eta^eb_LL - Eta^et_LL
@@ -444,7 +444,7 @@ C            print*,'CIstudy: Past doCI check. CIindex = ',CIindex
               Electron = .FALSE.
             endif
 
-C=========S - energu senter mass
+
 
             SS = q2(i)/(x(i)*y(i))
 
@@ -489,6 +489,8 @@ C=========S - energu senter mass
                 endif
 
 
+              call CIprintLOratio
+              
 
               THEO(idx) = THEO(idx)*xsec_LO_SM_CI/xsec_LO_SM      
 
