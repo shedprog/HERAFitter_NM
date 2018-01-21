@@ -394,6 +394,7 @@ C CI_new_models.txt (for testing CI_models) is open
       open(190, file = "CI_models_test.txt", status = 'unknown')
       write (190,*) 'CI_models from dis_sigma.f was activated!'
 C ADD term for M^2 (ContTerm) is implemented
+      write (190,*) 'CIvarval (in dis_sigma)=',CIvarval
       call  ModImpose(Eta)
 C Add term for DCconCC
 C Eta(1) = Eta^ed_LL - Eta^eu_LL
@@ -458,16 +459,17 @@ C            print*,'CIstudy: Past doCI check. CIindex = ',CIindex
 
                
               
-              write (190,*) 'Eta = ',Eta
-              write (190,*) 'charge = ' ,charge
-              write (190,*) 'polarity = ' ,polarity
-              write (190,*) 'XQfract = ' ,XQfract
-              write (190,*) 'S = ',SS
-              write (190,*) 'Q2 = ',q2(i)
-              write (190,*) 'x = ', x(i)
-              Write (190,*) 'y = ', y(i)
-              write (190,*) 'IDataSet=', IDataSet              
-    
+c              write (190,*) 'Eta = ',Eta
+c              write (190,*) 'charge = ' ,charge
+c              write (190,*) 'polarity = ' ,polarity
+c              write (190,*) 'XQfract = ' ,XQfract
+c              write (190,*) 'S = ',SS
+c              write (190,*) 'Q2 = ',q2(i)
+c              write (190,*) 'x = ', x(i)
+c              write (190,*) 'y = ', y(i)
+c              write (190,*) 'IDataSet=', IDataSet              
+              write (190,*) 'XSecType', XSecType  
+               
               if(XSecType.eq.'NCDIS')then
                 call DContNC( x(i), q2(i), SS, Eta, Electron, polarity, 
      +               Mz, alphaem, XQfract, xsec_LO_SM, xsec_LO_SM_CI,
@@ -486,14 +488,15 @@ C            print*,'CIstudy: Past doCI check. CIindex = ',CIindex
      +                        'xsec_LO_SM = ', xsec_LO_SM, 
      +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
                 write (190,*) 'STATUS=',status
-                endif
+               endif
 
 
-              call CIprintLOratio
+
               
-
+              write (190,*) 'THEO=',THEO(idx)
               THEO(idx) = THEO(idx)*xsec_LO_SM_CI/xsec_LO_SM      
-
+              write (190,*) 'THEO2=',THEO(idx)
+C              call CIprintLOratio()
 C              THEO(idx) = THEO(idx)*(( 1 - 
 C     $            (CIvarval)*Q2(i)/6 )**2 )
 

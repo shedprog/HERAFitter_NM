@@ -623,7 +623,8 @@ CCC------------HERE WE FORM ETA FROM PAR
      $ par(1), par(2), par(3), par(4), par(5), par(6), par(7), par(8),
      $ par(1), par(2), par(3), par(4), par(5), par(6), par(7), par(8)  
      $], [4,6])
-
+      write (190,*) 'CIvarval (in ModImpose)=',CIvarval
+        
       Return
       End
 C
@@ -1717,6 +1718,7 @@ C
       Integer iFile
 
       Data CIX/0.1, 0.2, 0.3, 0.4, 0.5, 0.6/
+c      Data OutFile/"./CI_output/CI_LOration.txt"/
       
       include 'steering.inc'
       include 'CI_models.inc'
