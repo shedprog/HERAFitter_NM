@@ -75,11 +75,11 @@ am__FitPDF_SOURCES_DIST = main.f init_theory.f fcn.f GetChisquare.f \
 	theory_dispatcher.f dy_cc_sigma.f pp_jets_applgrid.f \
 	error_logging.f getncxskt.f Getgridkt.f GetDummyXsection.f \
 	GetDiffDisXsection.f FixModelParams.f reweighting.f \
-	prep_corr.f GetPDFUncType.f offset_fns.f g_offset.cc \
-	lhapdf6_output.c c_interface.f fortran_io.f lhapdferrors.cc \
-	fappl_grid.cxx applgrids.f TheorEval.cc ftheor_eval.cc \
-	applgrids_dum.f ftheor_eval_dum.cc lhapdf_dum.f ttbar_hathor.f \
-	ttbar_hathor_dum.f CI_models.f 
+	prep_corr.f GetPDFUncType.f CI_models.f offset_fns.f \
+	g_offset.cc lhapdf6_output.c c_interface.f fortran_io.f \
+	lhapdferrors.cc fappl_grid.cxx applgrids.f TheorEval.cc \
+	ftheor_eval.cc applgrids_dum.f ftheor_eval_dum.cc lhapdf_dum.f \
+	ttbar_hathor.f ttbar_hathor_dum.f
 @ENABLE_APPLGRID_TRUE@am__objects_1 = fappl_grid.$(OBJEXT) \
 @ENABLE_APPLGRID_TRUE@	applgrids.$(OBJEXT) TheorEval.$(OBJEXT) \
 @ENABLE_APPLGRID_TRUE@	ftheor_eval.$(OBJEXT)
@@ -101,12 +101,12 @@ am_FitPDF_OBJECTS = main.$(OBJEXT) init_theory.$(OBJEXT) fcn.$(OBJEXT) \
 	Getgridkt.$(OBJEXT) GetDummyXsection.$(OBJEXT) \
 	GetDiffDisXsection.$(OBJEXT) FixModelParams.$(OBJEXT) \
 	reweighting.$(OBJEXT) prep_corr.$(OBJEXT) \
-	GetPDFUncType.$(OBJEXT) offset_fns.$(OBJEXT) \
-	g_offset.$(OBJEXT) lhapdf6_output.$(OBJEXT) \
-	c_interface.$(OBJEXT) fortran_io.$(OBJEXT) \
-	lhapdferrors.$(OBJEXT) $(am__objects_1) $(am__objects_2) \
-	$(am__objects_3) $(am__objects_4) $(am__objects_5) \
-	CI_models.$(OBJEXT) 
+	GetPDFUncType.$(OBJEXT) CI_models.$(OBJEXT) \
+	offset_fns.$(OBJEXT) g_offset.$(OBJEXT) \
+	lhapdf6_output.$(OBJEXT) c_interface.$(OBJEXT) \
+	fortran_io.$(OBJEXT) lhapdferrors.$(OBJEXT) $(am__objects_1) \
+	$(am__objects_2) $(am__objects_3) $(am__objects_4) \
+	$(am__objects_5)
 FitPDF_OBJECTS = $(am_FitPDF_OBJECTS)
 FitPDF_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
@@ -313,7 +313,6 @@ AUTOMAKE_OPTIONS = foreign
 pkginclude_HEADERS = offset.h
 
 # all source files which go into the main target
-
 # WS 2013-01-19 for the Offset method
 # LHAPDF6 output
 
@@ -326,11 +325,10 @@ FitPDF_SOURCES = main.f init_theory.f fcn.f GetChisquare.f \
 	theory_dispatcher.f dy_cc_sigma.f pp_jets_applgrid.f \
 	error_logging.f getncxskt.f Getgridkt.f GetDummyXsection.f \
 	GetDiffDisXsection.f FixModelParams.f reweighting.f \
-	prep_corr.f GetPDFUncType.f offset_fns.f g_offset.cc \
-	lhapdf6_output.c c_interface.f fortran_io.f lhapdferrors.cc \
-	$(am__append_1) $(am__append_2) $(am__append_3) \
-	$(am__append_4) $(am__append_5) \
-	CI_models.f
+	prep_corr.f GetPDFUncType.f CI_models.f offset_fns.f \
+	g_offset.cc lhapdf6_output.c c_interface.f fortran_io.f \
+	lhapdferrors.cc $(am__append_1) $(am__append_2) \
+	$(am__append_3) $(am__append_4) $(am__append_5)
 AM_CXXFLAGS = -I$(srcdir)/../include -I$(srcdir)/../interfaces/include \
 	-I$(srcdir)/../common -I$(srcdir)/../common/linalg
 
