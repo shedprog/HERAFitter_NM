@@ -439,17 +439,13 @@ C            print*,'CIstudy: Past doCI check. CIindex = ',CIindex
 
             if((CIindex.GT.100).AND.(CIindex.LT.320)) then
 
-            if (charge.eq.-1.0) then
+            if (charge.LT.0.0) then
               Electron = .TRUE.
             else 
               Electron = .FALSE.
             endif
 
-
-
             SS = q2(i)/(x(i)*y(i))
-
-        
 
             Call hf_get_pdfs(x(i),q2(i),dbPdf)
             Do iq=1,6
@@ -457,10 +453,11 @@ C            print*,'CIstudy: Past doCI check. CIindex = ',CIindex
               XQfract(2,iq) = dbPdf(-iq)
             EndDo
 
-               
-              
+c TEST OUTPUT SECTION              
+c              if ((i mod 10).eq.1.) then
 c              write (190,*) 'Eta = ',Eta
 c              write (190,*) 'charge = ' ,charge
+c              write (190,*) 'chargr = ' , Electron
 c              write (190,*) 'polarity = ' ,polarity
 c              write (190,*) 'XQfract = ' ,XQfract
 c              write (190,*) 'S = ',SS
@@ -468,15 +465,35 @@ c              write (190,*) 'Q2 = ',q2(i)
 c              write (190,*) 'x = ', x(i)
 c              write (190,*) 'y = ', y(i)
 c              write (190,*) 'IDataSet=', IDataSet              
-              write (190,*) 'XSecType', XSecType  
-               
+c              write (190,*) 'XSecType', XSecType  
+c              write (190,*) 'Couplings:', Mz, alphaem 
+c              endif
+
               if(XSecType.eq.'NCDIS')then
                 call DContNC( x(i), q2(i), SS, Eta, Electron, polarity, 
      +               Mz, alphaem, XQfract, xsec_LO_SM, xsec_LO_SM_CI,
      +               Status )
-                write (190,*) 'NCDIS:',
+              if (mod(i,30).eq.1.) then
+              write (190,*) 'NCDIS:',
      +                        'xsec_LO_SM = ', xsec_LO_SM, 
      +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
+              write (190,*) 'Eta = ',Eta
+              write (190,*) 'charge = ' ,charge
+              write (190,*) 'chargr = ' , Electron
+              write (190,*) 'polarity = ' ,polarity
+              write (190,*) 'XQfract = ' ,XQfract
+              write (190,*) 'S = ',SS
+              write (190,*) 'Q2 = ',q2(i)
+              write (190,*) 'x = ', x(i)
+              write (190,*) 'y = ', y(i)
+              write (190,*) 'IDataSet=', IDataSet
+              write (190,*) 'XSecType', XSecType
+              write (190,*) 'Couplings:', Mz, alphaem
+              endif
+
+
+c TEST STATUS of CI_models calc.
+
                 write (190,*) 'STATUS=',status
                 endif
 
@@ -487,6 +504,8 @@ c              write (190,*) 'IDataSet=', IDataSet
                 write (190,*) 'CCDIS:',
      +                        'xsec_LO_SM = ', xsec_LO_SM, 
      +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
+c TEST STATUS of CI_models calc.
+
                 write (190,*) 'STATUS=',status
                endif
 
