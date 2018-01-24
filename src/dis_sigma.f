@@ -455,28 +455,6 @@ C            print*,'CIstudy: Past doCI check. CIindex = ',CIindex
 
 c TEST OUTPUT SECTION              
 c              if ((i mod 10).eq.1.) then
-c              write (190,*) 'Eta = ',Eta
-c              write (190,*) 'charge = ' ,charge
-c              write (190,*) 'chargr = ' , Electron
-c              write (190,*) 'polarity = ' ,polarity
-c              write (190,*) 'XQfract = ' ,XQfract
-c              write (190,*) 'S = ',SS
-c              write (190,*) 'Q2 = ',q2(i)
-c              write (190,*) 'x = ', x(i)
-c              write (190,*) 'y = ', y(i)
-c              write (190,*) 'IDataSet=', IDataSet              
-c              write (190,*) 'XSecType', XSecType  
-c              write (190,*) 'Couplings:', Mz, alphaem 
-c              endif
-
-              if(XSecType.eq.'NCDIS')then
-                call DContNC( x(i), q2(i), SS, Eta, Electron, polarity, 
-     +               Mz, alphaem, XQfract, xsec_LO_SM, xsec_LO_SM_CI,
-     +               Status )
-              if (mod(i,30).eq.1.) then
-              write (190,*) 'NCDIS:',
-     +                        'xsec_LO_SM = ', xsec_LO_SM, 
-     +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
               write (190,*) 'Eta = ',Eta
               write (190,*) 'charge = ' ,charge
               write (190,*) 'chargr = ' , Electron
@@ -486,10 +464,34 @@ c              endif
               write (190,*) 'Q2 = ',q2(i)
               write (190,*) 'x = ', x(i)
               write (190,*) 'y = ', y(i)
-              write (190,*) 'IDataSet=', IDataSet
-              write (190,*) 'XSecType', XSecType
-              write (190,*) 'Couplings:', Mz, alphaem
-              endif
+              write (190,*) 'IDataSet=', IDataSet              
+              write (190,*) 'XSecType', XSecType  
+              write (190,*) 'Couplings:', Mz, alphaem 
+c              endif
+
+              if(XSecType.eq.'NCDIS')then
+                xsec_LO_SM_CI=0.
+                xsec_LO_SM=0.
+                     call DContNC( x(i), q2(i), SS, Eta, Electron, polarity, 
+     +               Mz, alphaem, XQfract, xsec_LO_SM, xsec_LO_SM_CI,
+     +               Status )
+c              if (mod(i,30).eq.1.) then
+c              write (190,*) 'NCDIS:',
+c     +                        'xsec_LO_SM = ', xsec_LO_SM, 
+c     +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
+c              write (190,*) 'Eta = ',Eta
+c              write (190,*) 'charge = ' ,charge
+c              write (190,*) 'charge = ' , Electron
+c              write (190,*) 'polarity = ' ,polarity
+c              write (190,*) 'XQfract = ' ,XQfract
+c              write (190,*) 'S = ',SS
+c              write (190,*) 'Q2 = ',q2(i)
+c              write (190,*) 'x = ', x(i)
+c              write (190,*) 'y = ', y(i)
+c              write (190,*) 'IDataSet=', IDataSet
+c              write (190,*) 'XSecType', XSecType
+c              write (190,*) 'Couplings:', Mz, alphaem
+c              endif
 
 
 c TEST STATUS of CI_models calc.
@@ -499,7 +501,9 @@ c TEST STATUS of CI_models calc.
 
               
               if(XSecType.eq.'СCDIS')then
-                call DContCC( x(i), q2(i), SS, Eta3, Electron, polarity,
+                xsec_LO_SM=0.
+                xsec_LO_SM_CI=0.
+                     call DContCC( x(i), q2(i), SS, Eta3, Electron, polarity,
      +               XQfract, xsec_LO_SM, xsec_LO_SM_CI, Status ) 
                 write (190,*) 'CCDIS:',
      +                        'xsec_LO_SM = ', xsec_LO_SM, 
@@ -513,13 +517,29 @@ c TEST STATUS of CI_models calc.
 
               
               write (190,*) 'THEO=',THEO(idx)
-              THEO(idx) = THEO(idx)*xsec_LO_SM_CI/xsec_LO_SM      
-              write (190,*) 'THEO2=',THEO(idx)
-C              call CIprintLOratio()
-C              THEO(idx) = THEO(idx)*(( 1 - 
-C     $            (CIvarval)*Q2(i)/6 )**2 )
+              write (666,*) 'x(i), q2(i), SS, Eta3, Electron,
+     +               polarity,XQfract, xsec_LO_SM, xsec_LO_SM_C',
+     +               x(i), q2(i), SS, Eta3, Electron, polarity,
+     +               XQfract, xsec_LO_SM, xsec_LO_SM_CI
+              write (666,*) 'DIS_type',XSecType
+              write (666,*) 'status',status
+              write (666,*) ,xsec_LO_SM_CI
+              write (666,*) ,xsec_LO_SM
+              write (666,*) 'THEO_0',THEO(idx)
+               
+              if((xsec_LO_SM_CI.GT.0.).AND.(xsec_LO_SM.GT.0.))then 
+              THEO(idx) = THEO(idx) 
+     $                          *(xsec_LO_SM_CI/xsec_LO_SM)      
+              write (666,*) 'Re-calculated'
+              endif
+                
+              THEO_CI_TEST(idx) = THEO(idx)*(( 1 - 
+     $            (CIvarval)*Q2(i)/6 )**2 )
+              write (666,*) 'THEO_V',THEO(idx)
+              write (666,*) 'THEO_T',THEO_CI_TEST(idx)                
+              write (666,*) '    '
 
-            elseif (CIindex.eq.401) then
+              elseif (CIindex.eq.401) then
 C             print*,'CIstudy: Quark form factor implemented.'
               THEO(idx) = THEO(idx)*(( 1 - 
      $            (CIvarval)*Q2(i)/6 )**2 )
