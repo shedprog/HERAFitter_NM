@@ -1553,8 +1553,8 @@ C---------------------------------------------
 C CI namelist
 C      namelist/CIstudy/CIindex,idxCIval,CItype,CIname,
 C    $   CIvarval,CIvarstep,CIvarmin,CIvarmax,doCI
-      namelist/CIstudy/doCI,CItype,CIvarval,CIvarstep,
-     &       CIvarmin, CIvarmax    
+      namelist/CIstudy/doCI,CItype,CIvarval,CIvarstep
+C     &       CIvarmin, CIvarmax    
 C-------------------------------------------------      
 C
 C  Read the CI namelist:
@@ -1569,7 +1569,8 @@ C-----------------------------------------------------------------------
 
         CIindex = 0
         idxCIval = 0
-
+        CIvarmin = 0. 
+        CIvarmax = 0.
         if (CItype.eq.'FormFactor') then
           CIindex = 401
           CIname = 'CI_Rq'
