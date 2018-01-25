@@ -475,19 +475,19 @@ c diff.dis=0 important for CCDIS
                 call DContNC( x(i), q2(i), SS, Eta, Electron, polarity, 
      +               Mz, alphaem, XQfract, xsec_LO_SM, xsec_LO_SM_CI,
      +               Status )
-                write (190,*) 'STATUS=',status
+c                write (190,*) 'STATUS=',status
               endif
               
               if(XSecType.eq.'СCDIS')then
                call DContCC( x(i), q2(i), SS, Eta3, Electron, polarity,
      +               XQfract, xsec_LO_SM, xsec_LO_SM_CI, Status ) 
-               write (190,*) 'CCDIS:',
-     +                        'xsec_LO_SM = ', xsec_LO_SM, 
-     +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
-               write (190,*) 'STATUS=',status
+c               write (190,*) 'CCDIS:',
+c     +                        'xsec_LO_SM = ', xsec_LO_SM, 
+c     +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
+c               write (190,*) 'STATUS=',status
               endif
               
-              write (190,*) 'THEO=',THEO(idx)
+c              write (190,*) 'THEO=',THEO(idx)
 
 c              write (666,*) 'x(i), q2(i), SS, Eta3, Electron,
 c     +               polarity,XQfract, xsec_LO_SM, xsec_LO_SM_C',

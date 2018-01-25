@@ -50,13 +50,27 @@ The only method to fill the grids and pdf values is to read from an XDR stream.
 */
 // oooooooooooooooooooooooooooooooooooooooooo
 class pdf_base_t {
-  static const double DBLstamp=1234567/4.0;
-  static const int INTstamp=12345;
-  
+//  static const double DBLstamp=1234567/4.0;
+//  static const int INTstamp=12345;
+
+    static
+#if __cplusplus >= 201103L
+    constexpr 
+#else
+    const
+#endif
+    double  DBLstamp=1234567/4.0;
+
+    static
+#if __cplusplus >= 201103L
+    constexpr
+#else
+    const
+#endif
+    int INTstamp=12345;
+
   // --- DATA
   // ------------
-  
-protected:  
   int M_nFlavors;
   int M_pn_min;
   // int M_nAllocDistr; //!--- # alocated Distr_t arrays
