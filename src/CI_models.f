@@ -623,7 +623,7 @@ CCC------------HERE WE FORM ETA FROM PAR
      $ par(1), par(2), par(3), par(4), par(5), par(6), par(7), par(8),
      $ par(1), par(2), par(3), par(4), par(5), par(6), par(7), par(8)  
      $], [4,6])
-      write (190,*) 'CIvarval (in ModImpose)=',CIvarval
+c      write (190,*) 'CIvarval (in ModImpose)=',CIvarval
         
       Return
       End
@@ -671,6 +671,7 @@ C
       DOUBLE PRECISION Function ContAlph( Q2 )
       IMPLICIT NONE
       DOUBLE PRECISION Q2
+c      DOUBLE PRECISION ContAlph
 C
       DOUBLE PRECISION AEMPI, RPIGG
 C
@@ -914,9 +915,12 @@ C
 C Alpha EM
 C
 CC      print *,'     ContTamp check, Alpha = ', Alpha
+c      write (999,*) 'TEST'
+c      write (999,*) Alpha
       IF (Alpha.LT.0.0) THEN
 C LW: running alphaem, copied from Filip's "mypdf.f"
         e2cor = 4.*Pi*ContAlph(ABS(T))
+c      write (999,*) ContAlph(ABS(T))
       ELSE IF (Alpha.EQ.0.0) THEN
         e2cor = 4.*pi*alphaem
 C        print *,'     ContTamp check, alphaem = ', alphaem,

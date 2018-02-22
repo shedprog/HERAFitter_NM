@@ -319,6 +319,7 @@ c H1qcdfunc
       data ifirst /1/
 C-------CI_models variables
       DOUBLE PRECISION xsec_LO_SM_CI, xsec_LO_SM
+      DOUBLE PRECISION xsec_LO_SM_CI_test, xsec_LO_SM_test 
       DOUBLE PRECISION, DIMENSION(3) :: Eta3
       DOUBLE PRECISION XQfract(2,7)
       LOGICAL Electron
@@ -326,10 +327,11 @@ C-------CI_models variables
       dimension dbPdf(-6:6)
       integer status
       integer iq 
-      DOUBLE PRECISION SS      
-
-      
-
+      DOUBLE PRECISION SS, S_new      
+      DOUBLE PRECISION run_coupling, run_coupling2
+      DOUBLE PRECISION ContAlph
+c      run_coupling=-1.d0 
+  
       if(debug) then
         print*,'GetDisXsection: XSEC TYPE = ', XSecType
       endif
@@ -453,8 +455,10 @@ C            print*,'CIstudy: Past doCI check. CIindex = ',CIindex
               XQfract(1,iq) = dbPdf(iq)
               XQfract(2,iq) = dbPdf(-iq)
             EndDo
-
-c              write (190,*) 'Eta = ',Eta
+            S_new = (DATASETInfo( GetInfoIndex(IDataSet,'sqrt(S)')
+     $           , IDataSet))**2
+c              write (190,*) 'S desault', S_new
+c              write (190,*) 'Eta3 = ',Eta3
 c              write (190,*) 'charge = ' ,charge
 c              write (190,*) 'chargr = ' , Electron
 c              write (190,*) 'polarity = ' ,polarity
@@ -470,21 +474,39 @@ c              write (190,*) 'Couplings:', Mz, alphaem
 c diff.dis=0 important for CCDIS                
                xsec_LO_SM_CI=0.0
                xsec_LO_SM=0.0
-            
-               if(XSecType.eq.'NCDIS')then
+               xsec_LO_SM_CI_test=0.0
+               xsec_LO_SM_test=0.0
+              
+c              run_coupling = aemrun(q2(i))
+              run_coupling2 = ContAlph(q2(i)) 
+c              write (666,*) 'run_HF ',run_coupling
+c              write (666,*) 'run_CI',run_coupling2
+c              write (666,*) 'const', alphaem
+              if(XSecType.eq.'NCDIS')then
                 call DContNC( x(i), q2(i), SS, Eta, Electron, polarity, 
-     +               Mz, alphaem, XQfract, xsec_LO_SM, xsec_LO_SM_CI,
+     +               Mz, run_coupling2, XQfract, xsec_LO_SM, xsec_LO_SM_CI,
      +               Status )
 c                write (190,*) 'STATUS=',status
-              endif
-              
-              if(XSecType.eq.'СCDIS')then
+                
+c                 call DContNC( x(i), q2(i), SS, Eta, Electron, polarity,
+c     +               Mz, alphaem, XQfract, xsec_LO_SM_test,
+c     +               xsec_LO_SM_CI_test,
+c     +               Status )
+                
+c                 write (190,*) 'xsec_LO_SM',xsec_LO_SM
+c                 write (190,*) 'xsec_LO_SM_CI',xsec_LO_SM_CI
+c                 write (190,*) 'xsec_LO_SM_test',xsec_LO_SM_test
+c                 write (190,*) 'xsec_LO_SM_CI_test',xsec_LO_SM_CI_test
+               endif
+c               write (190,*) 'test if NC', XSecType.eq.'NCDIS'               
+c               write (190,*) 'test if CC', XSecType.eq.'CCDIS'             
+              if(XSecType.eq.'CCDIS')then
                call DContCC( x(i), q2(i), SS, Eta3, Electron, polarity,
      +               XQfract, xsec_LO_SM, xsec_LO_SM_CI, Status ) 
-c               write (190,*) 'CCDIS:',
-c     +                        'xsec_LO_SM = ', xsec_LO_SM, 
-c     +                        'xsec_LO_SM_CI = ', xsec_LO_SM_CI
-c               write (190,*) 'STATUS=',status
+c                 write (190,*) 'xsec_LO_SM',xsec_LO_SM
+c                 write (190,*) 'xsec_LO_SM_CI',xsec_LO_SM_CI
+
+c              write (190,*) 'STATUS=',status
               endif
               
 c              write (190,*) 'THEO=',THEO(idx)
